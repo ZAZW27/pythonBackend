@@ -1,42 +1,62 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+/* @tailwind base;
+@tailwind components;
+@tailwind utilities; */
+
+.modal {
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100svh;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
+.modal-content{
+  display: flex;
+  flex-direction: column;
+  background-color: #383243;
+  margin: 10% auto ;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 20rem;
 }
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
-}
-
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.close{
+  color: #aaa;
+  /* float: right; */
+  align-self: end;
+  font-size: 28px;
+  font-weight: 900;
+  cursor: pointer;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+input{
+  background-color: #383243 !important;
+  border: none ;
+  outline: none !important;
+  border-bottom: 1.2px solid #aaa;
+  /* width: 20rem; */
 }
 
-.card {
-  padding: 2em;
+form{
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
-.read-the-docs {
-  color: #888;
+form > div {
+  display: flex;
+  flex-direction: column;
+}
+
+.submit-btn{
+  width: 8rem;
+  margin-top: 10px;
+  padding: 8px 0;
+  border: 2px solid #fefefe;
+  border-radius: 4px;
+  color: #fefefe;
+  font-weight: 600;
+  background-color: transparent;
 }

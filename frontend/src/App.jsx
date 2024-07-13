@@ -1,34 +1,61 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { useState, useEffect } from 'react'
+import ContactList from './component/contactList'
+import ContactForm from './component/contactForm'
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [contacts, setContacts] = useState([])
+  const [isModalOpen, setIsmodalOpen] = useState(false);
+  const [currentContact, setCurrentContact] = useState({});
+
+  useEffect(() => {
+    fetchContacts()
+  }, [])
+
+  const fetchContacts = async () => {
+    const response = await fetch("http://127.0.0.1:5000/contacts")
+    const data = await response.json()
+    setContacts(data.contacts)
+    // console.log(data.contacts)
+  }
+
+  // To open modal
+  const closeModal = () => {
+    setIsmodalOpen(false)
+    setCurrentContact({})
+  }
+
+  const openCreateModal = () => {
+    if (!isModalOpen) setIsmodalOpen(true)
+  }
+
+  const openEditModal = (contact) => {
+    if (isModalOpen) return
+    setCurrentContact(contact)
+    setIsmodalOpen(true)
+  }
+
+  const onUpdate = () => {
+    closeModal()
+    fetchContacts()
+  }
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <div className='p-[2rem]'>
+      <ContactList contacts={contacts} updateContact={openEditModal} updateCallback={onUpdate}/>
+      <button className='mt-6 border-[0.2rem] border-slate-300 rounded-lg px-4 py-1.5' onClick={openCreateModal}>Create new contact</button>
+      {
+        isModalOpen &&
+        <div className='modal'>
+          <div className="modal-content">
+            <span className="close" onClick={closeModal}>
+              &times;
+            </span>
+            <ContactForm existingContact={currentContact} updateCallback={onUpdate}/>
+          </div>
+        </div>
+      }
+    </div>
   )
 }
 
